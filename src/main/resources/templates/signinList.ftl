@@ -9,9 +9,26 @@
         $(document).ready(function () {
             $("#output").hide();
             $(".errorJson").hide();
+          //  $("#result").hide();
+            var showMsg = $(this).find('td').length > 0;
+            if(showMsg){
+                $("#result").hide();
+            }else{
+                $("#result").show();
+                $("#result").append("no results");
+            }
+
             (function ($) {
                 $("#btnJson").click(function () {
                     searchAjax();
+                });
+                $("#btnList").click(function () {
+                    var showMsg = $(this).find('td').length > 0;
+                    if(showMsg){
+                        $("#result").hide();
+                    }else{
+                        $("#result").css("display", "block");
+                    }
                 });
             })(jQuery);
 
@@ -20,6 +37,8 @@
                 var surname, postCode;
                 surname = document.getElementById("surname").value;
                 postCode = document.getElementById("postCode").value;
+                $("#output").empty();
+                $("#result").empty();
                 if (Boolean(surname) && Boolean(postCode)) {
                     $.ajax({
                         type: "POST",
@@ -30,13 +49,22 @@
                         timeout: 100000,
                         success: function (data) {
                             console.log("SUCCESS: ", data);
-                            $("#output").show();
-                            $(".errorJson").hide();
-                            $.each(data, function (key, value) {
-                                $("#output").append('<td>' + value['forename'] + '</td>' + '<td>' + value['surname'] + '</td>'
-                                        + '<td>' + value['emailAddress'] + '</td>' + '<td>' + value['customerType'].toLowerCase() + '</td>'
-                                        + '<td>' + value['postCode'] + '</td>');
-                            });
+                            if(data.length > 0){
+                                $("#output").show();
+                                $(".errorJson").hide();
+                                $("#result").hide();
+                                $.each(data, function (key, value) {
+                                    $("#output").append('<td>' + value['forename'] + '</td>' + '<td>' + value['surname'] + '</td>'
+                                            + '<td>' + value['emailAddress'] + '</td>' + '<td>' + value['customerType'].toLowerCase() + '</td>'
+                                            + '<td>' + value['postCode'] + '</td>');
+                                });
+                            }else {
+                                $("#output").empty();
+                                $("#result").show();
+                                $("#result").append("no results");
+
+                            }
+
 
                         },
                         error: function (e) {
@@ -127,6 +155,9 @@
             font-weight: bold;
             list-style-type: none;
         }
+        #result{
+            float: left;
+        }
     </style>
 
 </head>
@@ -140,7 +171,7 @@
     <form name="customer" action="/signinFilterList" method="post">
             Surname : <input type="text" name="surname"/><br/><br/>
             PostCode: <input type="text" name="postCode"/><br/><br/>
-            <input type="submit" message="Filter"/>
+            <input type="submit" id="btnList" message="Filter"/>
 
 <#if errorsMsg??>
 <ul>
@@ -188,9 +219,16 @@
     <td>${customer.postCode}</td>
 </tr>
     </#list>
+<#--<#else>-->
+<#--<label> sdas</label>-->
 
 </#if>
+
     </table>
+    <label id="result"></label>
+    <#--<label id="resultList">teste</label>-->
+
+
 </div>
 </body>
 </html>
