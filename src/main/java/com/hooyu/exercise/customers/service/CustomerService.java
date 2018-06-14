@@ -12,6 +12,6 @@ import java.util.Map;
 public interface CustomerService {
     Customer findCustomerByEmailAddress(Customer customerParam) throws CustomerNotFoundException;
     void checkEmailInSession(String email,  HttpSession session) throws EmailAlreadyExistsInSessionException;
-    List<Customer> findAll(Customer customerParam);
+    List<Customer> filterCustomerByFields(Customer customerFilter);
 
 }

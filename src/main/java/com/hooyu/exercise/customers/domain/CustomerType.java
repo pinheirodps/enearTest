@@ -1,17 +1,15 @@
 package com.hooyu.exercise.customers.domain;
 
-import java.util.stream.Stream;
-
 public enum CustomerType {
 	PREMIUM("Premium"), NON_PAYING("Non Paying");
-	private String value;
+	private String message;
 
-	CustomerType(String value) {
-		this.value = value;
+	CustomerType(String message) {
+		this.message = message;
 	}
 
-	public String getValue() {
-		return value;
+	public String getMessage() {
+		return message;
 	}
 
 

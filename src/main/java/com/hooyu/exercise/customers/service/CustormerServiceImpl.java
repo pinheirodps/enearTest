@@ -3,14 +3,12 @@ package com.hooyu.exercise.customers.service;
 import com.hooyu.exercise.controllers.EmailAlreadyExistsInSessionException;
 import com.hooyu.exercise.customers.dao.CustomerNotFoundException;
 import com.hooyu.exercise.customers.domain.Customer;
-import com.hooyu.exercise.repository.Customers;
 import com.hooyu.exercise.repository.impl.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CustormerServiceImpl implements CustomerService {
@@ -27,8 +25,8 @@ public class CustormerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer findCustomerByEmailAddress(Customer customerParam) throws CustomerNotFoundException {
-        return customers.lookup(customerParam);
+    public Customer findCustomerByEmailAddress(Customer customerParam)throws CustomerNotFoundException {
+        return customers.findByField(customerParam);
     }
 
     @Override
@@ -39,7 +37,7 @@ public class CustormerServiceImpl implements CustomerService {
         }
     }
 
-    public List<Customer> findAll(Customer customerParam) {
-        return customers.findAll(customerParam);
+    public List<Customer> filterCustomerByFields(Customer customerFilter) {
+        return customers.filterByFields(customerFilter);
     }
 }

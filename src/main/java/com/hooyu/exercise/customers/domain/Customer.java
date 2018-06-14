@@ -4,12 +4,17 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.constraints.NotEmpty;
+
 public class Customer {
 
+
 	private String forename;
+	@NotEmpty(message = "Surname is required")
 	private String surname;
 	private String emailAddress;
 	private CustomerType customerType;
+	@NotEmpty(message = "postCode is required")
 	private String postCode;
 
 	public Customer(CustomerBuilder customerBuilder) {
@@ -76,5 +81,9 @@ public class Customer {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public CustomerType getCustomerType() {
+		return customerType;
 	}
 }
